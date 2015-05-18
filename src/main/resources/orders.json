@@ -1,0 +1,24 @@
+[
+  {
+    "id":"6e8bc430-9c3a-11d9-9669-0800200c9a67",
+    "firstName":"James",
+    "lastName":"Rege",
+    "street":"3945, Freedom Drive",
+    "city":"Santa Clara",
+    "zip":"95051",
+    "timestamp": "2015-04-10T14:38:10.123Z",
+    "phone": "",
+    "status":"pending.approval"
+  },
+  {
+    "id":"6e8bc430-9c3a-11d9-9669-0800200c8b66",
+    "firstName":"Randy",
+    "lastName":"Gill",
+    "street":"12 Stelling Way",
+    "city":"Cupertino",
+    "zip":"94086",
+    "timestamp": "2015-04-10T14:38:10.123Z",
+    "phone": "(555) 555-5555",
+    "status":"pending.activation"
+  }
+]
