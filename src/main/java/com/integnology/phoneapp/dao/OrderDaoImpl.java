@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 
 @Repository
-public class OrderDaoImpl {
+public class OrderDaoImpl implements OrderDao {
     private List<PhoneOrder> orders = new ArrayList<PhoneOrder>();
 
     public OrderDaoImpl() {
@@ -37,7 +37,6 @@ public class OrderDaoImpl {
         } catch (FileNotFoundException exception) {
         } catch (IOException exception) {
         }
-
     }
 
     public void updateOrders(List<PhoneOrder> phoneOrders) {
@@ -97,8 +96,5 @@ public class OrderDaoImpl {
         return result;
     }
 
-    interface Matcher<T> {
-        public boolean matches(T t);
-    }
 
 }
