@@ -5,8 +5,8 @@ package com.integnology.phoneapp.controller;
  */
 
 
+import com.integnology.phoneapp.service.PhoneOrderService;
 import com.integnology.phoneapp.model.PhoneOrder;
-import com.integnology.phoneapp.dao.OrderDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.*;
 public class PhoneOrderController {
 
     @Autowired
-    private OrderDao orderDao;
+    private PhoneOrderService phoneOrderService;
 
-    public void setOrderDao(OrderDao orderDao) {
-        this.orderDao=orderDao;
+    public void setPhoneOrderService(PhoneOrderService phoneOrderService) {
+        this.phoneOrderService = phoneOrderService;
     }
 
     @RequestMapping(value="/")
@@ -40,24 +40,22 @@ public class PhoneOrderController {
     public
     @ResponseBody
     List<PhoneOrder> getAllOrders() {
-        return orderDao.getAllOrders();
+        return phoneOrderService.getAllOrders();
     }
 
     @RequestMapping(value="order/id/{id}", method = RequestMethod.GET)
     public @ResponseBody List<PhoneOrder> getOrderById(@PathVariable("id") UUID id) {
-        List<PhoneOrder> orders = orderDao.getOrdersById(id);
-        return orders;
+        return phoneOrderService.getOrdersById(id);
     }
 
     @RequestMapping(value="order/status/{status}", method = RequestMethod.GET)
     public @ResponseBody List<PhoneOrder> getOrdersByStatus(@PathVariable("status") String status) {
-        List<PhoneOrder> orders = orderDao.getOrdersByStatus(status);
-        return orders;
+        return phoneOrderService.getOrdersByStatus(status);
     }
 
     @RequestMapping(value="order", method = RequestMethod.POST)
     public ResponseEntity<PhoneOrder> createOrder(@RequestBody PhoneOrder order) {
-        orderDao.createOrder(order);
+        phoneOrderService.createOrder(order);
         return new ResponseEntity<PhoneOrder>(order, HttpStatus.OK);
     }
 
@@ -65,7 +63,7 @@ public class PhoneOrderController {
     public ResponseEntity<PhoneOrder> updateOrder(@RequestBody PhoneOrder order) {
         List<PhoneOrder> updateOrder = new ArrayList<PhoneOrder>();
         updateOrder.add(order);
-        orderDao.updateOrders(updateOrder);
+        phoneOrderService.updateOrders(updateOrder);
         return new ResponseEntity<PhoneOrder>(order, HttpStatus.OK);
     }
 }

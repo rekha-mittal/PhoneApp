@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,10 +17,10 @@ import java.util.UUID;
  */
 
 @Repository
-public class OrderDaoImpl implements OrderDao {
+public class PhoneOrderDaoImpl implements PhoneOrderDao {
     private List<PhoneOrder> orders = new ArrayList<PhoneOrder>();
 
-    public OrderDaoImpl() {
+    public PhoneOrderDaoImpl() {
 
         ObjectMapper om = new ObjectMapper();
 

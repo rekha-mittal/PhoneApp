@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * Created by calvinmak on 5/18/15.
  */
-public interface OrderDao {
+public interface PhoneOrderDao {
     public void updateOrders(List<PhoneOrder> phoneOrders);
 
     public List<PhoneOrder> getOrdersById(final UUID id);
