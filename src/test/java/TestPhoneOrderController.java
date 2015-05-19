@@ -1,17 +1,28 @@
 import com.integnology.phoneapp.controller.PhoneOrderController;
-import com.integnology.phoneapp.dao.OrderDaoImpl;
+import com.integnology.phoneapp.dao.OrderDao;
 import com.integnology.phoneapp.model.PhoneOrder;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.Date;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import org.mockito.stubbing.Answer;
 
 /**
  * Created by calvinmak on 5/18/15.
@@ -19,22 +30,25 @@ import static org.junit.Assert.assertTrue;
 public class TestPhoneOrderController {
 
     private static PhoneOrderController phoneOrderController;
-    private static OrderDaoImpl orderDao;
+    private static OrderDao orderDao;
     private PhoneOrder newOrder1;
     private PhoneOrder newOrder2;
-    
+    private UUID id1;
+    private UUID id2;
+
     @BeforeClass
     public static void init() {
-        orderDao=new OrderDaoImpl();
-        phoneOrderController=new PhoneOrderController();
-        phoneOrderController.setOrderDao(orderDao);
-        
+
+
     }
-    
+
     @Before
     public void setup() {
+        orderDao = mock(OrderDao.class);
+        phoneOrderController = new PhoneOrderController();
+        phoneOrderController.setOrderDao(orderDao);
         orderDao.clearOrders();
-        newOrder1=new PhoneOrder();
+        newOrder1 = new PhoneOrder();
         newOrder1.setFirstName("James");
         newOrder1.setLastName("Rege");
         newOrder1.setStreet("3945, Freedom Drive");
@@ -43,80 +57,94 @@ public class TestPhoneOrderController {
         newOrder1.setTimestamp(new Date());
         newOrder1.setPhone("");
         newOrder1.setStatus("pending.approval");
+        id1=UUID.randomUUID();
+        newOrder1.setId(id1);
 
-        newOrder2=new PhoneOrder();
+        newOrder2 = new PhoneOrder();
         newOrder2.setFirstName("Randy");
         newOrder2.setLastName("Gill");
         newOrder2.setStreet("12 Stelling Way");
-        newOrder2.setCity("Cupertion");
+        newOrder2.setCity("Cupertino");
         newOrder2.setZip("94086");
         newOrder2.setTimestamp(new Date());
         newOrder2.setPhone("(555) 555-5555");
         newOrder2.setStatus("pending.activation");
+        id2=UUID.randomUUID();
+        newOrder2.setId(id2);
+
     }
 
-    @Test public void testCreateOrder() {
-        ResponseEntity response=phoneOrderController.createOrder(newOrder1);
-        UUID id=((PhoneOrder)(response.getBody())).getId();
-        List<PhoneOrder> results=phoneOrderController.getOrderById(id);
-        assertTrue(results.contains(newOrder1));
+    @Test
+    public void testGetAllOrders() {
+        when(orderDao.getAllOrders())
+                .thenAnswer(new Answer<List>() {
+                    @Override
+                    public List<PhoneOrder> answer(InvocationOnMock invocation) {
+                        List results = new ArrayList<PhoneOrder>();
+                        results.add(newOrder1);
+                        results.add(newOrder2);
+                        return results;
+                    }
+                });
+        List expectedResult=new ArrayList<PhoneOrder>();
+        expectedResult.add(newOrder1);
+        expectedResult.add(newOrder2);
+        assertTrue(phoneOrderController.getAllOrders().containsAll(expectedResult));
     }
 
-    @Test public void testGetAllOrders() {
-        phoneOrderController.createOrder(newOrder1);
-        phoneOrderController.createOrder(newOrder2);
-        List results=phoneOrderController.getAllOrders();
-        List expectedResults=new ArrayList<PhoneOrder>();
-        expectedResults.add(newOrder1);
-        expectedResults.add(newOrder2);
-        assertTrue(results.containsAll(expectedResults));
+    @Test
+    public void testCreateOrder() {
+        doNothing().when(orderDao).createOrder(newOrder1);
+        ResponseEntity<PhoneOrder> responseEntity=phoneOrderController.createOrder(newOrder1);
+        assertEquals(newOrder1, responseEntity.getBody());
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
     }
 
-    @Test public void testUpdateOrderStatusToPendingApproval() {
-        ResponseEntity response=phoneOrderController.createOrder(newOrder2);
-        newOrder2.setStatus("pending.approval");
-        phoneOrderController.updateOrder(newOrder2);
-        UUID id=((PhoneOrder)(response.getBody())).getId();
-        List<PhoneOrder> result=phoneOrderController.getOrderById(id);
-        PhoneOrder resultOrder=(result.get(0));
-        assertEquals("pending.approval", resultOrder.getStatus());
+    @Test
+    public void testGetOrderByID() {
+        when(orderDao.getOrdersById(id1))
+                .thenAnswer(new Answer<List>() {
+                    @Override
+                    public List<PhoneOrder> answer(InvocationOnMock invocation) {
+                        List results = new ArrayList<PhoneOrder>();
+                        results.add(newOrder1);
+                        return results;
+                    }
+
+                });
+        assertTrue(phoneOrderController.getOrderById(id1).contains(newOrder1));
+        assertEquals(1,phoneOrderController.getOrderById(id1).size());
     }
 
-    @Test public void testUpdateOrderStatusToClosed() {
-        ResponseEntity response=phoneOrderController.createOrder(newOrder2);
-        newOrder2.setStatus("closed");
-        phoneOrderController.updateOrder(newOrder2);
-        UUID id=((PhoneOrder)(response.getBody())).getId();
-        List<PhoneOrder> result=phoneOrderController.getOrderById(id);
-        PhoneOrder resultOrder=(result.get(0));
-        assertEquals("closed", resultOrder.getStatus());
+    @Test
+    public void testGetOrdersByStatus() {
+        when(orderDao.getOrdersByStatus("pending.activation"))
+                .thenAnswer(new Answer<List>() {
+                    @Override
+                    public List<PhoneOrder> answer(InvocationOnMock invocation) {
+                        List results = new ArrayList<PhoneOrder>();
+                        results.add(newOrder1);
+                        return results;
+                    }
+                });
+        assertTrue(phoneOrderController.getOrdersByStatus("pending.activation").contains(newOrder1));
+        assertEquals(1, phoneOrderController.getOrdersByStatus("pending.activation").size());
     }
 
-    @Test public void testUpdateOrderStatusToPendingActivation() {
-        ResponseEntity response=phoneOrderController.createOrder(newOrder1);
-        newOrder1.setStatus("pending.activation");
-        phoneOrderController.updateOrder(newOrder1);
-        UUID id=((PhoneOrder)(response.getBody())).getId();
-        List<PhoneOrder> result=phoneOrderController.getOrderById(id);
-        PhoneOrder resultOrder=(result.get(0));
-        assertEquals("pending.activation", resultOrder.getStatus());
-    }
-    @Test(expected = RuntimeException.class) public void testUpdateOrderWithNonExistingOrderThrowsRuntimeException() {
-        phoneOrderController.createOrder(newOrder1);
-        phoneOrderController.updateOrder(newOrder2);
+    @Test
+    public void testUpdateOrder() {
+        doNothing().when(orderDao).updateOrders(anyList());
+        ResponseEntity<PhoneOrder> responseEntity=phoneOrderController.updateOrder(newOrder1);
+        assertEquals(newOrder1,responseEntity.getBody());
+        assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
     }
 
-    @Test public void testGetOrderByStatus() {
-        phoneOrderController.createOrder(newOrder1);
-        phoneOrderController.createOrder(newOrder2);
-        List<PhoneOrder> results=phoneOrderController.getOrdersByStatus("pending.activation");
-        assertTrue((results.size() == 1) && (results.contains(newOrder2)));
-    }
-
-    @Test public void testGetOrderById() {
-        ResponseEntity response=phoneOrderController.createOrder(newOrder1);
-        UUID id=((PhoneOrder)(response.getBody())).getId();
-        List<PhoneOrder> results=phoneOrderController.getOrderById(id);
-        assertTrue(results.contains(newOrder1));
-    }
 }
+
+
+
+
+
+
+
+
