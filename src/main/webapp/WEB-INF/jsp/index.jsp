@@ -265,6 +265,7 @@
                     $("#approveOrder").submit(function() {
                         approveOrder();
                     });
+                    $("#approveOrderSubmt").focus();
                 });
                 $("#approveOrderDialog").dialog("open");
             } else if (id == "") {
