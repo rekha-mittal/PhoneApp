@@ -27,7 +27,7 @@ public class TestOrderDaoImpl {
 
     @Before
     public void setup() {
-        phoneOrderDao.clearOrders();
+        phoneOrderDao.clearPhoneOrders();
         newOrder1 = new PhoneOrder();
         newOrder1.setFirstName("James");
         newOrder1.setLastName("Rege");
@@ -55,29 +55,29 @@ public class TestOrderDaoImpl {
 
     @Test
     public void testUpdateOrdersWithExistingOrder() {
-        phoneOrderDao.createOrder(newOrder1);
+        phoneOrderDao.createPhoneOrder(newOrder1);
         newOrder1.setStatus("closed");
         List<PhoneOrder> orders = new ArrayList<PhoneOrder>();
         orders.add(newOrder1);
-        phoneOrderDao.updateOrders(orders);
-        PhoneOrder result= phoneOrderDao.getOrdersById(newOrder1.getId()).get(0);
+        phoneOrderDao.updatePhoneOrders(orders);
+        PhoneOrder result= phoneOrderDao.getPhoneOrdersById(newOrder1.getId()).get(0);
         assertEquals("closed",result.getStatus());
     }
 
     @Test(expected = RuntimeException.class)
     public void testUpdateOrdersWithNonExistingOrder() {
-        phoneOrderDao.createOrder(newOrder1);
+        phoneOrderDao.createPhoneOrder(newOrder1);
         newOrder2.setStatus("closed");
         List<PhoneOrder> orders = new ArrayList<PhoneOrder>();
         orders.add(newOrder2);
-        phoneOrderDao.updateOrders(orders);
+        phoneOrderDao.updatePhoneOrders(orders);
     }
 
     @Test
     public void testGetAllOrders() {
-        phoneOrderDao.createOrder(newOrder1);
-        phoneOrderDao.createOrder(newOrder2);
-        List results= phoneOrderDao.getAllOrders();
+        phoneOrderDao.createPhoneOrder(newOrder1);
+        phoneOrderDao.createPhoneOrder(newOrder2);
+        List results= phoneOrderDao.getAllPhoneOrders();
         assertEquals(2,results.size());
         assertTrue(results.contains(newOrder1));
         assertTrue(results.contains(newOrder2));
@@ -85,25 +85,25 @@ public class TestOrderDaoImpl {
 
     @Test
     public void testGetOrdersById() {
-        phoneOrderDao.createOrder(newOrder1);
+        phoneOrderDao.createPhoneOrder(newOrder1);
         id1=newOrder1.getId();
-        List results= phoneOrderDao.getOrdersById(id1);
+        List results= phoneOrderDao.getPhoneOrdersById(id1);
         assertEquals(1, results.size());
         assertTrue(results.contains(newOrder1));
     }
 
     @Test
     public void testGetOrdersByStatus() {
-        phoneOrderDao.createOrder(newOrder1);
+        phoneOrderDao.createPhoneOrder(newOrder1);
         String status=newOrder1.getStatus();
-        List results= phoneOrderDao.getOrdersByStatus(status);
+        List results= phoneOrderDao.getPhoneOrdersByStatus(status);
         assertEquals(1,results.size());
         assertTrue(results.contains(newOrder1));
     }
     @Test
     public void testCreateOrder() {
-        phoneOrderDao.createOrder(newOrder2);
-        List results= phoneOrderDao.getAllOrders();
+        phoneOrderDao.createPhoneOrder(newOrder2);
+        List results= phoneOrderDao.getAllPhoneOrders();
         assertTrue(results.contains(newOrder2));
     }
 }

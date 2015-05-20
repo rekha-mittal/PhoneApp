@@ -68,7 +68,7 @@ public class TestPhoneOrderController {
 
     @Test
     public void testGetAllOrders() {
-        when(phoneOrderService.getAllOrders())
+        when(phoneOrderService.getAllPhoneOrders())
                 .thenAnswer(new Answer<List>() {
                     @Override
                     public List<PhoneOrder> answer(InvocationOnMock invocation) {
@@ -86,7 +86,7 @@ public class TestPhoneOrderController {
 
     @Test
     public void testCreateOrder() {
-        doNothing().when(phoneOrderService).createOrder(newOrder1);
+        doNothing().when(phoneOrderService).createPhoneOrder(newOrder1);
         ResponseEntity<PhoneOrder> responseEntity=phoneOrderController.createOrder(newOrder1);
         assertEquals(newOrder1, responseEntity.getBody());
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());
@@ -94,7 +94,7 @@ public class TestPhoneOrderController {
 
     @Test
     public void testGetOrderByID() {
-        when(phoneOrderService.getOrdersById(id1))
+        when(phoneOrderService.getPhoneOrdersById(id1))
                 .thenAnswer(new Answer<List>() {
                     @Override
                     public List<PhoneOrder> answer(InvocationOnMock invocation) {
@@ -110,7 +110,7 @@ public class TestPhoneOrderController {
 
     @Test
     public void testGetOrdersByStatus() {
-        when(phoneOrderService.getOrdersByStatus("pending.activation"))
+        when(phoneOrderService.getPhoneOrdersByStatus("pending.activation"))
                 .thenAnswer(new Answer<List>() {
                     @Override
                     public List<PhoneOrder> answer(InvocationOnMock invocation) {
@@ -125,7 +125,7 @@ public class TestPhoneOrderController {
 
     @Test
     public void testUpdateOrder() {
-        doNothing().when(phoneOrderService).updateOrders(anyList());
+        doNothing().when(phoneOrderService).updatePhoneOrders(anyList());
         ResponseEntity<PhoneOrder> responseEntity=phoneOrderController.updateOrder(newOrder1);
         assertEquals(newOrder1,responseEntity.getBody());
         assertEquals(HttpStatus.OK,responseEntity.getStatusCode());

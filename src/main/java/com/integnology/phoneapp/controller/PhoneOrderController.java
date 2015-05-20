@@ -40,30 +40,30 @@ public class PhoneOrderController {
     public
     @ResponseBody
     List<PhoneOrder> getAllOrders() {
-        return phoneOrderService.getAllOrders();
+        return phoneOrderService.getAllPhoneOrders();
     }
 
     @RequestMapping(value="order/id/{id}", method = RequestMethod.GET)
     public @ResponseBody List<PhoneOrder> getOrderById(@PathVariable("id") UUID id) {
-        return phoneOrderService.getOrdersById(id);
+        return phoneOrderService.getPhoneOrdersById(id);
     }
 
     @RequestMapping(value="order/status/{status}", method = RequestMethod.GET)
     public @ResponseBody List<PhoneOrder> getOrdersByStatus(@PathVariable("status") String status) {
-        return phoneOrderService.getOrdersByStatus(status);
+        return phoneOrderService.getPhoneOrdersByStatus(status);
     }
 
     @RequestMapping(value="order", method = RequestMethod.POST)
-    public ResponseEntity<PhoneOrder> createOrder(@RequestBody PhoneOrder order) {
-        phoneOrderService.createOrder(order);
-        return new ResponseEntity<PhoneOrder>(order, HttpStatus.OK);
+    public ResponseEntity<PhoneOrder> createOrder(@RequestBody PhoneOrder phoneOrder) {
+        phoneOrderService.createPhoneOrder(phoneOrder);
+        return new ResponseEntity<PhoneOrder>(phoneOrder, HttpStatus.OK);
     }
 
     @RequestMapping(value="order", method = RequestMethod.PUT)
-    public ResponseEntity<PhoneOrder> updateOrder(@RequestBody PhoneOrder order) {
+    public ResponseEntity<PhoneOrder> updateOrder(@RequestBody PhoneOrder phoneOrder) {
         List<PhoneOrder> updateOrder = new ArrayList<PhoneOrder>();
-        updateOrder.add(order);
-        phoneOrderService.updateOrders(updateOrder);
-        return new ResponseEntity<PhoneOrder>(order, HttpStatus.OK);
+        updateOrder.add(phoneOrder);
+        phoneOrderService.updatePhoneOrders(updateOrder);
+        return new ResponseEntity<PhoneOrder>(phoneOrder, HttpStatus.OK);
     }
 }

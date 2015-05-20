@@ -18,10 +18,9 @@ import java.util.UUID;
 
 @Repository
 public class PhoneOrderDaoImpl implements PhoneOrderDao {
-    private List<PhoneOrder> orders = new ArrayList<PhoneOrder>();
+    private List<PhoneOrder> phoneOrders = new ArrayList<PhoneOrder>();
 
     public PhoneOrderDaoImpl() {
-
         ObjectMapper om = new ObjectMapper();
 
         InputStream inputStreamOrders = getClass().getResourceAsStream("/orders.json");
@@ -29,31 +28,31 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         ObjectMapper mapper = new ObjectMapper();
         final CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(List.class, PhoneOrder.class);
         try {
-            List<PhoneOrder> orders = mapper.readValue(inputStreamOrders, collectionType);
-            for (PhoneOrder order : orders) {
-                createOrder(order);
+            List<PhoneOrder> phoneOrders = mapper.readValue(inputStreamOrders, collectionType);
+            for (PhoneOrder phoneOrder : phoneOrders) {
+                createPhoneOrder(phoneOrder);
             }
         } catch (FileNotFoundException exception) {
         } catch (IOException exception) {
         }
     }
 
-    public void updateOrders(List<PhoneOrder> phoneOrders) {
-        for (PhoneOrder order : phoneOrders) {
-            UUID id = order.getId();
-            List<PhoneOrder> existingOrders = getOrdersById(id);
+    public void updatePhoneOrders(List<PhoneOrder> phoneOrders) {
+        for (PhoneOrder phoneOrder : phoneOrders) {
+            UUID id = phoneOrder.getId();
+            List<PhoneOrder> existingOrders = getPhoneOrdersById(id);
             if (existingOrders.isEmpty() || existingOrders.size() > 1) {
-                throw new RuntimeException("Order not exist or there are multiple orders with id: " + id);
+                throw new RuntimeException("Order not exist or there are multiple phoneOrders with id: " + id);
             }
-            orders.remove(existingOrders.get(0));
-            orders.add(order);
+            this.phoneOrders.remove(existingOrders.get(0));
+            this.phoneOrders.add(phoneOrder);
         }
     }
 
-    public List<PhoneOrder> getOrdersById(final UUID id) {
-        return findOrders(new Matcher<PhoneOrder>() {
-            public boolean matches(PhoneOrder order) {
-                if (order.getId().equals(id)) {
+    public List<PhoneOrder> getPhoneOrdersById(final UUID id) {
+        return findPhoneOrders(new Matcher<PhoneOrder>() {
+            public boolean matches(PhoneOrder phoneOrder) {
+                if (phoneOrder.getId().equals(id)) {
                     return true;
                 }
                 return false;
@@ -61,10 +60,10 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         });
     }
 
-    public List<PhoneOrder> getOrdersByStatus(final String status) {
-        return findOrders(new Matcher<PhoneOrder>() {
-            public boolean matches(PhoneOrder order) {
-                if (order.getStatus().equalsIgnoreCase(status)) {
+    public List<PhoneOrder> getPhoneOrdersByStatus(final String status) {
+        return findPhoneOrders(new Matcher<PhoneOrder>() {
+            public boolean matches(PhoneOrder phoneOrder) {
+                if (phoneOrder.getStatus().equalsIgnoreCase(status)) {
                     return true;
                 }
                 return false;
@@ -72,24 +71,24 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         });
     }
 
-    public void clearOrders() {
-        orders.clear();
+    public void clearPhoneOrders() {
+        phoneOrders.clear();
     }
 
-    public void createOrder(PhoneOrder order) {
-        order.setId(UUID.randomUUID());
-        orders.add(order);
+    public void createPhoneOrder(PhoneOrder phoneOrder) {
+        phoneOrder.setId(UUID.randomUUID());
+        phoneOrders.add(phoneOrder);
     }
 
-    public List<PhoneOrder> getAllOrders() {
-        return orders;
+    public List<PhoneOrder> getAllPhoneOrders() {
+        return phoneOrders;
     }
 
-    public List<PhoneOrder> findOrders(Matcher<PhoneOrder> m) {
+    public List<PhoneOrder> findPhoneOrders(Matcher<PhoneOrder> m) {
         List<PhoneOrder> result = new ArrayList<PhoneOrder>();
-        for (PhoneOrder order : orders) {
-            if (m.matches(order)) {
-                result.add(order);
+        for (PhoneOrder phoneOrder : phoneOrders) {
+            if (m.matches(phoneOrder)) {
+                result.add(phoneOrder);
             }
         }
         return result;

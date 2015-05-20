@@ -9,19 +9,19 @@ import java.util.UUID;
  * Created by calvinmak on 5/18/15.
  */
 public interface PhoneOrderDao {
-    public void updateOrders(List<PhoneOrder> phoneOrders);
+    public void updatePhoneOrders(List<PhoneOrder> phoneOrders);
 
-    public List<PhoneOrder> getOrdersById(final UUID id);
+    public List<PhoneOrder> getPhoneOrdersById(final UUID id);
 
-    public List<PhoneOrder> getOrdersByStatus(final String status);
+    public List<PhoneOrder> getPhoneOrdersByStatus(final String status);
 
-    public void clearOrders();
+    public void clearPhoneOrders();
 
-    public void createOrder(PhoneOrder order);
+    public void createPhoneOrder(PhoneOrder phoneOrder);
 
-    public List<PhoneOrder> getAllOrders();
+    public List<PhoneOrder> getAllPhoneOrders();
 
-    public List<PhoneOrder> findOrders(Matcher<PhoneOrder> m);
+    public List<PhoneOrder> findPhoneOrders(Matcher<PhoneOrder> m);
 
     interface Matcher<T> {
         public boolean matches(T t);
