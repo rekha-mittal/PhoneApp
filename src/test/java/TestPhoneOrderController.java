@@ -67,25 +67,25 @@ public class TestPhoneOrderController {
     }
 
     @Test
-    public void testGetAllOrders() {
+    public void getAllPhoneOrders_ReturnsAllOrders() {
         when(phoneOrderService.getAllPhoneOrders())
                 .thenAnswer(new Answer<List>() {
                     @Override
                     public List<PhoneOrder> answer(InvocationOnMock invocation) {
-                        List <PhoneOrder> results = new ArrayList<PhoneOrder>();
+                        List<PhoneOrder> results = new ArrayList<PhoneOrder>();
                         results.add(newOrder1);
                         results.add(newOrder2);
                         return results;
                     }
                 });
-        List<PhoneOrder>expectedResult=new ArrayList<PhoneOrder>();
-        expectedResult.add(newOrder1);
-        expectedResult.add(newOrder2);
-        assertTrue(phoneOrderController.getAllOrders().containsAll(expectedResult));
+        List<PhoneOrder> results=phoneOrderController.getAllOrders();
+        assertTrue(results.contains(newOrder1));
+        assertTrue(results.contains(newOrder2));
+        assertEquals(2,results.size());
     }
 
     @Test
-    public void testCreateOrder() {
+    public void createPhoneOrder_ReturnsResponseEntityWithPhoneOrderAndOKStatus() {
         doNothing().when(phoneOrderService).createPhoneOrder(newOrder1);
         ResponseEntity<PhoneOrder> responseEntity=phoneOrderController.createOrder(newOrder1);
         assertEquals(newOrder1, responseEntity.getBody());
@@ -93,7 +93,7 @@ public class TestPhoneOrderController {
     }
 
     @Test
-    public void testGetOrderByID() {
+    public void getPhoneOrderByID_ReturnsOrderCorrectOrder() {
         when(phoneOrderService.getPhoneOrdersById(id1))
                 .thenAnswer(new Answer<List>() {
                     @Override
@@ -104,27 +104,31 @@ public class TestPhoneOrderController {
                     }
 
                 });
-        assertTrue(phoneOrderController.getOrderById(id1).contains(newOrder1));
-        assertEquals(1,phoneOrderController.getOrderById(id1).size());
+        List<PhoneOrder> results=phoneOrderController.getOrderById(id1);
+        assertTrue(results.contains(newOrder1));
+        assertEquals(1, results.size());
+        assertEquals(id1,((PhoneOrder)results.get(0)).getId());
     }
 
     @Test
-    public void testGetOrdersByStatus() {
-        when(phoneOrderService.getPhoneOrdersByStatus("pending.activation"))
+    public void getPhoneOrdersByStatus_ReturnOrderWithSpecifiedStatus() {
+        when(phoneOrderService.getPhoneOrdersByStatus("pending.approval"))
                 .thenAnswer(new Answer<List>() {
                     @Override
                     public List<PhoneOrder> answer(InvocationOnMock invocation) {
-                        List<PhoneOrder>results = new ArrayList<PhoneOrder>();
+                        List<PhoneOrder> results = new ArrayList<PhoneOrder>();
                         results.add(newOrder1);
                         return results;
                     }
                 });
-        assertTrue(phoneOrderController.getOrdersByStatus("pending.activation").contains(newOrder1));
-        assertEquals(1, phoneOrderController.getOrdersByStatus("pending.activation").size());
+        List<PhoneOrder> results=phoneOrderController.getOrdersByStatus("pending.approval");
+        assertTrue(results.contains(newOrder1));
+        assertEquals(1, results.size());
+        assertEquals("pending.approval",((PhoneOrder)results.get(0)).getStatus());
     }
 
     @Test
-    public void testUpdateOrder() {
+    public void updateOrder_ReturnsResponseEntityWithPhoneOrderAndOKStatus() {
         doNothing().when(phoneOrderService).updatePhoneOrders(anyList());
         ResponseEntity<PhoneOrder> responseEntity=phoneOrderController.updateOrder(newOrder1);
         assertEquals(newOrder1,responseEntity.getBody());

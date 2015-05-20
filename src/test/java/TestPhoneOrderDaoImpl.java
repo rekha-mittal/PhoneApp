@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class TestOrderDaoImpl {
+public class TestPhoneOrderDaoImpl {
 
     private PhoneOrderDao phoneOrderDao =new PhoneOrderDaoImpl();
     private PhoneOrder newOrder1;
@@ -54,7 +54,7 @@ public class TestOrderDaoImpl {
     }
 
     @Test
-    public void testUpdateOrdersWithExistingOrder() {
+    public void UpdatePhoneOrders_CanUpdateExistingOrder() {
         phoneOrderDao.createPhoneOrder(newOrder1);
         newOrder1.setStatus("closed");
         List<PhoneOrder> orders = new ArrayList<PhoneOrder>();
@@ -65,7 +65,7 @@ public class TestOrderDaoImpl {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testUpdateOrdersWithNonExistingOrder() {
+    public void updatePhoneOrders_UpdatingNonExistingOrderThrowsRuntimeException() {
         phoneOrderDao.createPhoneOrder(newOrder1);
         newOrder2.setStatus("closed");
         List<PhoneOrder> orders = new ArrayList<PhoneOrder>();
@@ -74,7 +74,7 @@ public class TestOrderDaoImpl {
     }
 
     @Test
-    public void testGetAllOrders() {
+    public void getAllPhoneOrders_ReturnsAllOrders() {
         phoneOrderDao.createPhoneOrder(newOrder1);
         phoneOrderDao.createPhoneOrder(newOrder2);
         List results= phoneOrderDao.getAllPhoneOrders();
@@ -84,7 +84,7 @@ public class TestOrderDaoImpl {
     }
 
     @Test
-    public void testGetOrdersById() {
+    public void getPhoneOrdersById_ValidIdReturnsCorrectPhoneOrder() {
         phoneOrderDao.createPhoneOrder(newOrder1);
         id1=newOrder1.getId();
         List results= phoneOrderDao.getPhoneOrdersById(id1);
@@ -93,15 +93,15 @@ public class TestOrderDaoImpl {
     }
 
     @Test
-    public void testGetOrdersByStatus() {
+    public void getPhoneOrdersByStatus_ReturnsOrdersWithSpecifiedStatus() {
         phoneOrderDao.createPhoneOrder(newOrder1);
-        String status=newOrder1.getStatus();
-        List results= phoneOrderDao.getPhoneOrdersByStatus(status);
+        phoneOrderDao.createPhoneOrder(newOrder2);
+        List results= phoneOrderDao.getPhoneOrdersByStatus("pending.approval");
         assertEquals(1,results.size());
-        assertTrue(results.contains(newOrder1));
+        assertEquals("pending.approval",((PhoneOrder)results.get(0)).getStatus());
     }
     @Test
-    public void testCreateOrder() {
+    public void createOrder_CreatesAnOrder() {
         phoneOrderDao.createPhoneOrder(newOrder2);
         List results= phoneOrderDao.getAllPhoneOrders();
         assertTrue(results.contains(newOrder2));
