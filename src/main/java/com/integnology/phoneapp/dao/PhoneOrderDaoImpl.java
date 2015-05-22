@@ -6,8 +6,9 @@ import com.integnology.phoneapp.model.PhoneOrder;
 import org.springframework.stereotype.Repository;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
+
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,8 +33,8 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
             for (PhoneOrder phoneOrder : phoneOrders) {
                 createPhoneOrder(phoneOrder);
             }
-        } catch (FileNotFoundException exception) {
-        } catch (IOException exception) {
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -1,9 +1,11 @@
 package com.integnology.phoneapp.service;
 
-import com.integnology.phoneapp.model.PhoneOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.integnology.phoneapp.dao.PhoneOrderDao;
+import com.integnology.phoneapp.model.PhoneOrder;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 

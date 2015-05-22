@@ -1,6 +1,7 @@
 package com.integnology.phoneapp.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -109,12 +110,18 @@ public class PhoneOrder {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         PhoneOrder that = (PhoneOrder) o;
 
-        if (!firstName.equals(that.firstName)) return false;
+        if (!firstName.equals(that.firstName)) {
+            return false;
+        }
         return id.equals(that.id);
 
     }
