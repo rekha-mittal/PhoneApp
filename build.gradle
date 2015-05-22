@@ -3,10 +3,56 @@ apply plugin: 'war'
 apply plugin: 'idea'
 apply plugin: 'jetty'
 apply plugin: 'eclipse-wtp'
+apply plugin: 'checkstyle'
+apply plugin: 'jacoco'
+
 
 version='0.0.1-SNAPSHOT'
 repositories {
     jcenter()
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
+}
+
+checkstyleMain << {
+    ant.xslt(in: reports.xml.destination,
+             style: new File('config/checkstyle/checkstyle-noframes-sorted.xsl'),
+             out: new File(reports.xml.destination.parent, 'main.html'))
+}
+
+checkstyleTest << {
+    ant.xslt(in: reports.xml.destination,
+             style: new File('config/checkstyle/checkstyle-noframes-sorted.xsl'),
+             out: new File(reports.xml.destination.parent, 'test.html'))
+}
+
+checkstyle {
+    configFile = new File(rootDir, 'config/checkstyle/checkstyle.xml')
+    toolVersion = '6.1'
+    ignoreFailures = false
+}
+
+apply plugin: "pmd"
+apply plugin: "findbugs"
+
+pmd {
+    ignoreFailures = true
+}
+
+
+findbugs {
+    ignoreFailures = true
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
 }
 
 dependencies {
