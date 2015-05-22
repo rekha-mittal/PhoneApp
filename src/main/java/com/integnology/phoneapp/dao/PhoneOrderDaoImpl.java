@@ -22,19 +22,23 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
     private List<PhoneOrder> phoneOrders = new ArrayList<PhoneOrder>();
 
     public PhoneOrderDaoImpl() {
-        ObjectMapper om = new ObjectMapper();
-
         InputStream inputStreamOrders = getClass().getResourceAsStream("/orders.json");
         //read file and insert events from the file to DB
-        ObjectMapper mapper = new ObjectMapper();
-        final CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(List.class, PhoneOrder.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        final CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, PhoneOrder.class);
         try {
-            List<PhoneOrder> phoneOrders = mapper.readValue(inputStreamOrders, collectionType);
+            List<PhoneOrder> phoneOrders = objectMapper.readValue(inputStreamOrders, collectionType);
             for (PhoneOrder phoneOrder : phoneOrders) {
                 createPhoneOrder(phoneOrder);
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                inputStreamOrders.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

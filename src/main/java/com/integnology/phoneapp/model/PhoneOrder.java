@@ -93,11 +93,20 @@ public class PhoneOrder {
     }
 
     public Date getTimestamp() {
-        return timestamp;
+        if (timestamp != null) {
+            return new Date(timestamp.getTime());
+        } else {
+            return null;
+        }
     }
 
     public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+
+        if (timestamp != null) {
+            this.timestamp = new Date(timestamp.getTime());
+        } else {
+            this.timestamp = null;
+        }
     }
 
     public String toString() {
