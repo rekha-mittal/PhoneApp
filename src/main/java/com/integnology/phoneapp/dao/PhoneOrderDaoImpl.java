@@ -64,7 +64,7 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
     /**
      * Gets the phone orders from the repository.
      * @param id order id of the PhoneOrder.
-     * @eeturn the list of PhoneOrder
+     * @return  the list of PhoneOrder
      */
     public List<PhoneOrder> getPhoneOrdersById(final UUID id) {
         return findPhoneOrders(new Matcher<PhoneOrder>() {
@@ -80,7 +80,7 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
     /**
      * Gets the phone orders from the repository.
      * @param status order id of the PhoneOrder.
-     * @eeturn the list of PhoneOrder
+     * @return the list of PhoneOrder
      */
     public List<PhoneOrder> getPhoneOrdersByStatus(final String status) {
         return findPhoneOrders(new Matcher<PhoneOrder>() {
