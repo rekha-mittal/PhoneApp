@@ -21,6 +21,9 @@ import java.util.UUID;
 public class PhoneOrderDaoImpl implements PhoneOrderDao {
     private List<PhoneOrder> phoneOrders = new ArrayList<PhoneOrder>();
 
+    /*
+       Initializes the inmemory repository with the defualt phone orders.
+     */
     public PhoneOrderDaoImpl() {
         InputStream inputStreamOrders = getClass().getResourceAsStream("/orders.json");
         //read file and insert events from the file to DB
@@ -42,6 +45,10 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         }
     }
 
+    /**
+     * Updates the phone order to the repository.
+     * @param phoneOrders List of PhoneOrder to be updated to the repo
+     */
     public void updatePhoneOrders(List<PhoneOrder> phoneOrders) {
         for (PhoneOrder phoneOrder : phoneOrders) {
             UUID id = phoneOrder.getId();
@@ -54,6 +61,11 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         }
     }
 
+    /**
+     * Gets the phone orders from the repository.
+     * @param id order id of the PhoneOrder.
+     * @eeturn the list of PhoneOrder
+     */
     public List<PhoneOrder> getPhoneOrdersById(final UUID id) {
         return findPhoneOrders(new Matcher<PhoneOrder>() {
             public boolean matches(PhoneOrder phoneOrder) {
@@ -65,6 +77,11 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         });
     }
 
+    /**
+     * Gets the phone orders from the repository.
+     * @param status order id of the PhoneOrder.
+     * @eeturn the list of PhoneOrder
+     */
     public List<PhoneOrder> getPhoneOrdersByStatus(final String status) {
         return findPhoneOrders(new Matcher<PhoneOrder>() {
             public boolean matches(PhoneOrder phoneOrder) {
