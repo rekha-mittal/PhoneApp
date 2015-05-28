@@ -102,6 +102,8 @@ public class PhoneOrder {
         } else {
             this.timestamp = null;
         }
+        //this is to introduce a find bugs warning
+//        this.timestamp = timestamp;
     }
 
     @Override
