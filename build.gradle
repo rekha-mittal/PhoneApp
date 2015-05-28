@@ -33,7 +33,7 @@ checkstyleTest << {
 checkstyle {
     configFile = new File(rootDir, 'config/checkstyle/checkstyle.xml')
     toolVersion = '6.1'
-    ignoreFailures = false
+    ignoreFailures = true
 }
 
 apply plugin: "pmd"

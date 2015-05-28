@@ -29,6 +29,9 @@ public class PhoneOrderController {
     @Autowired
     private PhoneOrderService phoneOrderService;
 
+    /**
+     * This sets the PhoneOrderService mock object to be used for unit testing.
+     */
     public void setPhoneOrderService(PhoneOrderService phoneOrderService) {
         this.phoneOrderService = phoneOrderService;
     }
@@ -63,6 +66,9 @@ public class PhoneOrderController {
         return new ResponseEntity<PhoneOrder>(phoneOrder, HttpStatus.OK);
     }
 
+    /**
+     * This creates a new PhoneOrder.
+     */
     @RequestMapping(value = "order", method = RequestMethod.PUT)
     public ResponseEntity<PhoneOrder> updateOrder(@RequestBody PhoneOrder phoneOrder) {
         List<PhoneOrder> updateOrder = new ArrayList<PhoneOrder>();
