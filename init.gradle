@@ -1,6 +1,7 @@
 allprojects {
 
     def artifactory_repoKey = System.properties["artifactory_repoKey"] ? System.properties["artifactory_repoKey"] : project.hasProperty("artifactory_repoKey") ? project.property("artifactory_repoKey") : "undefined"
+def artifactory_contextUrl="http://artifactory.integnology.com/artifactory"
 
     buildscript {
         repositories {
