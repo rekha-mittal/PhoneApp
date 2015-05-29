@@ -6,11 +6,11 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
 
-
 version='0.0.1-SNAPSHOT'
 repositories {
-    jcenter()
+    //jcenter()
 }
+
 
 jacocoTestReport {
     group = "Reporting"
@@ -58,6 +58,10 @@ tasks.withType(FindBugs) {
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.7'
     compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
+    compile 'org.springframework:spring-beans:4.1.6.RELEASE'
+    compile 'org.springframework:spring-core:4.1.6.RELEASE'
+    compile 'org.springframework:spring-context:4.1.6.RELEASE'
+    compile 'org.springframework:spring-web:4.1.6.RELEASE'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     compile 'javax.servlet:javax.servlet-api:3.1.0'
