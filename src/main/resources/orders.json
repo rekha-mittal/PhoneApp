@@ -20,5 +20,27 @@
     "timestamp": "2015-04-10T14:38:10.123Z",
     "phone": "(555) 555-5555",
     "status":"pending.activation"
+  },
+  {
+    "id":"6e8bc430-9c3a-11d9-9669-0800200c9a77",
+    "firstName":"Jean",
+    "lastName":"Shaw",
+    "street":"45, Mission Street",
+    "city":"Santa Clara",
+    "zip":"95051",
+    "timestamp": "2015-05-10T14:38:10.123Z",
+    "phone": "",
+    "status":"pending.approval"
+  },
+  {
+    "id":"6e8bc430-9c3a-11da-9669-0800200c9a77",
+    "firstName":"Manny",
+    "lastName":"Gill",
+    "street":"45, Denver Street",
+    "city":"Santa Clara",
+    "zip":"95056",
+    "timestamp": "2015-05-15T14:38:10.123Z",
+    "phone": "",
+    "status":"pending.approval"
   }
 ]

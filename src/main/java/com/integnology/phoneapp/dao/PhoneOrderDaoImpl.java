@@ -1,17 +1,18 @@
 package com.integnology.phoneapp.dao;
 
+import com.integnology.phoneapp.model.PhoneOrder;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import com.integnology.phoneapp.model.PhoneOrder;
 import org.springframework.stereotype.Repository;
-
-import java.io.FileNotFoundException;
 
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+
 
 /**
  * Created by rekhamittal on 5/5/15.
@@ -21,6 +22,9 @@ import java.util.UUID;
 public class PhoneOrderDaoImpl implements PhoneOrderDao {
     private List<PhoneOrder> phoneOrders = new ArrayList<PhoneOrder>();
 
+    /**
+     *Initializes the in memory repository with the default phone orders.
+     */
     public PhoneOrderDaoImpl() {
         InputStream inputStreamOrders = getClass().getResourceAsStream("/orders.json");
         //read file and insert events from the file to DB
@@ -42,9 +46,16 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         }
     }
 
+    /**
+     * Updates the phone order to the repository.
+     * @param phoneOrders List of PhoneOrder to be updated to the repo
+     */
     public void updatePhoneOrders(List<PhoneOrder> phoneOrders) {
         for (PhoneOrder phoneOrder : phoneOrders) {
             UUID id = phoneOrder.getId();
+            if (id != null) {
+
+            }
             List<PhoneOrder> existingOrders = getPhoneOrdersById(id);
             if (existingOrders.isEmpty() || existingOrders.size() > 1) {
                 throw new RuntimeException("Order not exist or there are multiple phoneOrders with id: " + id);
@@ -54,6 +65,11 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         }
     }
 
+    /**
+     * Gets the phone orders from the repository.
+     * @param id order id of the PhoneOrder.
+     * @return  the list of PhoneOrder
+     */
     public List<PhoneOrder> getPhoneOrdersById(final UUID id) {
         return findPhoneOrders(new Matcher<PhoneOrder>() {
             public boolean matches(PhoneOrder phoneOrder) {
@@ -65,6 +81,11 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         });
     }
 
+    /**
+     * Gets the phone orders from the repository.
+     * @param status order id of the PhoneOrder.
+     * @return the list of PhoneOrder
+     */
     public List<PhoneOrder> getPhoneOrdersByStatus(final String status) {
         return findPhoneOrders(new Matcher<PhoneOrder>() {
             public boolean matches(PhoneOrder phoneOrder) {
@@ -76,19 +97,36 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
         });
     }
 
+    /**
+     * Deletes the phone orders from the repository.
+     */
     public void clearPhoneOrders() {
         phoneOrders.clear();
     }
 
+    /**
+     * Adds the phone order to the repository
+     * Creates a unique id for the order.
+     * @param phoneOrder new PhoneOrder to be created
+     */
     public void createPhoneOrder(PhoneOrder phoneOrder) {
         phoneOrder.setId(UUID.randomUUID());
         phoneOrders.add(phoneOrder);
     }
 
+    /**
+     * Gets all the phone orders from the repository.
+     * @return the list of PhoneOrder
+     */
     public List<PhoneOrder> getAllPhoneOrders() {
         return phoneOrders;
     }
 
+    /**
+     * Search the repository for a phoneorder based on the interface.
+     * @param m interface with the matches implementation
+     * @return the list of PhoneOrder
+     */
     public List<PhoneOrder> findPhoneOrders(Matcher<PhoneOrder> m) {
         List<PhoneOrder> result = new ArrayList<PhoneOrder>();
         for (PhoneOrder phoneOrder : phoneOrders) {

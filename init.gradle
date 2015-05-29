@@ -1,0 +1,45 @@
+allprojects {
+
+    def artifactory_repoKey = System.properties["artifactory_repoKey"] ? System.properties["artifactory_repoKey"] : project.hasProperty("artifactory_repoKey") ? project.property("artifactory_repoKey") : "undefined"
+
+    buildscript {
+        repositories {
+            maven {
+                url "${artifactory_contextUrl}/plugins-release"
+            }
+            maven {
+                url "${artifactory_contextUrl}/plugins-snapshot"
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url "${artifactory_contextUrl}/libs-release-local"
+            credentials {
+            }
+        }
+        maven {
+            url "${artifactory_contextUrl}/libs-snapshot-local"
+            credentials {
+            }
+        }
+        maven {
+            url "${artifactory_contextUrl}/jcenter-cache"
+            credentials {
+            }
+	}
+    }
+
+    apply plugin: 'maven-publish'
+
+    publishing {
+        repositories {
+            maven {
+                url "${artifactory_contextUrl}/${artifactory_repoKey}"
+                credentials {
+                }
+            }
+        }
+    }
+}

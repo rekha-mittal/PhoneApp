@@ -92,23 +92,21 @@ public class PhoneOrder {
         this.id = id;
     }
 
-    public Date getTimestamp() {
-        if (timestamp != null) {
-            return new Date(timestamp.getTime());
-        } else {
-            return null;
-        }
-    }
-
+    /**
+     * Sets the timestamp of the order.
+     * @param timestamp the timestamp of the order
+     */
     public void setTimestamp(Date timestamp) {
-
         if (timestamp != null) {
             this.timestamp = new Date(timestamp.getTime());
         } else {
             this.timestamp = null;
         }
+        //this is to introduce a find bugs warning
+//        this.timestamp = timestamp;
     }
 
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("First Name:" + firstName);
