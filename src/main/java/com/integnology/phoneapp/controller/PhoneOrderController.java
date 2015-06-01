@@ -38,6 +38,7 @@ public class PhoneOrderController {
 
     @RequestMapping(value = "/")
     public String showIndex() {
+        String test = "test";
         return "index";
     }
 
