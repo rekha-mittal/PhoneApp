@@ -53,9 +53,6 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
     public void updatePhoneOrders(List<PhoneOrder> phoneOrders) {
         for (PhoneOrder phoneOrder : phoneOrders) {
             UUID id = phoneOrder.getId();
-            if (id != null) {
-
-            }
             List<PhoneOrder> existingOrders = getPhoneOrdersById(id);
             if (existingOrders.isEmpty() || existingOrders.size() > 1) {
                 throw new RuntimeException("Order not exist or there are multiple phoneOrders with id: " + id);
