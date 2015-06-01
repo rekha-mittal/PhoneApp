@@ -68,6 +68,9 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
      * @return  the list of PhoneOrder
      */
     public List<PhoneOrder> getPhoneOrdersById(final UUID id) {
+        if (id == null) {
+            String test= " TEST";
+        }
         return findPhoneOrders(new Matcher<PhoneOrder>() {
             public boolean matches(PhoneOrder phoneOrder) {
                 if (phoneOrder.getId().equals(id)) {
