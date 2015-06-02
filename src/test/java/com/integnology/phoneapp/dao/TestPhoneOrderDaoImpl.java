@@ -79,7 +79,7 @@ public class TestPhoneOrderDaoImpl {
     public void getAllPhoneOrders_ReturnsAllOrders() {
         phoneOrderDao.createPhoneOrder(newOrder1);
         phoneOrderDao.createPhoneOrder(newOrder2);
-        List results = phoneOrderDao.getAllPhoneOrders();
+        List<PhoneOrder> results = phoneOrderDao.getAllPhoneOrders();
         assertEquals(2,results.size());
         assertTrue(results.contains(newOrder1));
         assertTrue(results.contains(newOrder2));
@@ -89,7 +89,7 @@ public class TestPhoneOrderDaoImpl {
     public void getPhoneOrdersById_ValidIdReturnsCorrectPhoneOrder() {
         phoneOrderDao.createPhoneOrder(newOrder1);
         id1 = newOrder1.getId();
-        List results = phoneOrderDao.getPhoneOrdersById(id1);
+        List<PhoneOrder> results = phoneOrderDao.getPhoneOrdersById(id1);
         assertEquals(1, results.size());
         assertTrue(results.contains(newOrder1));
     }
@@ -98,7 +98,7 @@ public class TestPhoneOrderDaoImpl {
     public void getPhoneOrdersByStatus_ReturnsOrdersWithSpecifiedStatus() {
         phoneOrderDao.createPhoneOrder(newOrder1);
         phoneOrderDao.createPhoneOrder(newOrder2);
-        List results = phoneOrderDao.getPhoneOrdersByStatus("pending.approval");
+        List<PhoneOrder> results = phoneOrderDao.getPhoneOrdersByStatus("pending.approval");
         assertEquals(1,results.size());
         assertEquals("pending.approval",((PhoneOrder)results.get(0)).getStatus());
     }
@@ -106,7 +106,7 @@ public class TestPhoneOrderDaoImpl {
     @Test
     public void createOrder_CreatesAnOrder() {
         phoneOrderDao.createPhoneOrder(newOrder2);
-        List results = phoneOrderDao.getAllPhoneOrders();
+        List<PhoneOrder> results = phoneOrderDao.getAllPhoneOrders();
         assertTrue(results.contains(newOrder2));
     }
 }
