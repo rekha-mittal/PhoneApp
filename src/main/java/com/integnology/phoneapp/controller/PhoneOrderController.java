@@ -26,6 +26,14 @@ import java.util.UUID;
 @Controller
 public class PhoneOrderController {
 
+    private static final String INDEX = "index";
+    private static final String ID = "id";
+    private static final String STATUS = "status";
+
+    private static final String ORDER_MAPPING = "order";
+    private static final String ORDER_STATUS_MAPPING = "order/status/{status}";
+    private static final String ORDER_ID_MAPPING = "order/id/{id}";
+
     @Autowired
     private PhoneOrderService phoneOrderService;
 
@@ -38,30 +46,34 @@ public class PhoneOrderController {
 
     @RequestMapping(value = "/")
     public String showIndex() {
-        return "index";
+        return INDEX;
     }
 
 
-    @RequestMapping(value = "order", method = RequestMethod.GET)
+    @RequestMapping(value = ORDER_MAPPING, method = RequestMethod.GET)
     @ResponseBody
     public List<PhoneOrder> getAllOrders() {
         return phoneOrderService.getAllPhoneOrders();
     }
 
-    @RequestMapping(value = "order/id/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = ORDER_ID_MAPPING, method = RequestMethod.GET)
     @ResponseBody
+<<<<<<< HEAD
     public List<PhoneOrder> getOrderById(@PathVariable("id") UUID id) {
         System.out.println("Received a get order by id request" +id);
+=======
+    public List<PhoneOrder> getOrderById(@PathVariable(ID) UUID id) {
+>>>>>>> master
         return phoneOrderService.getPhoneOrdersById(id);
     }
 
-    @RequestMapping(value = "order/status/{status}", method = RequestMethod.GET)
+    @RequestMapping(value = ORDER_STATUS_MAPPING, method = RequestMethod.GET)
     @ResponseBody
-    public List<PhoneOrder> getOrdersByStatus(@PathVariable("status") String status) {
+    public List<PhoneOrder> getOrdersByStatus(@PathVariable(STATUS) String status) {
         return phoneOrderService.getPhoneOrdersByStatus(status);
     }
 
-    @RequestMapping(value = "order", method = RequestMethod.POST)
+    @RequestMapping(value = ORDER_MAPPING, method = RequestMethod.POST)
     public ResponseEntity<PhoneOrder> createOrder(@RequestBody PhoneOrder phoneOrder) {
         phoneOrderService.createPhoneOrder(phoneOrder);
         return new ResponseEntity<PhoneOrder>(phoneOrder, HttpStatus.OK);
@@ -70,7 +82,7 @@ public class PhoneOrderController {
     /**
      * This creates a new PhoneOrder.
      */
-    @RequestMapping(value = "order", method = RequestMethod.PUT)
+    @RequestMapping(value = ORDER_MAPPING, method = RequestMethod.PUT)
     public ResponseEntity<PhoneOrder> updateOrder(@RequestBody PhoneOrder phoneOrder) {
         List<PhoneOrder> updateOrder = new ArrayList<PhoneOrder>();
         updateOrder.add(phoneOrder);

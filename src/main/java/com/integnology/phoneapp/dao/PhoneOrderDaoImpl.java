@@ -21,12 +21,15 @@ import java.util.UUID;
 @Repository
 public class PhoneOrderDaoImpl implements PhoneOrderDao {
     private List<PhoneOrder> phoneOrders = new ArrayList<PhoneOrder>();
+    private static final String ORDER_FILE = "/orders.json";
+    private static final String ORDER_ERR_MSG = "Order not exist or there are multiple phoneOrders with id:";
+    private static final String FILE_ERR_MSG = "Error reading file";
 
     /**
      *Initializes the in memory repository with the default phone orders.
      */
     public PhoneOrderDaoImpl() {
-        InputStream inputStreamOrders = getClass().getResourceAsStream("/orders.json");
+        InputStream inputStreamOrders = getClass().getResourceAsStream(ORDER_FILE);
         //read file and insert events from the file to DB
         ObjectMapper objectMapper = new ObjectMapper();
         final CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(List.class, PhoneOrder.class);
@@ -36,12 +39,12 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
                 createPhoneOrder(phoneOrder);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FILE_ERR_MSG, e);
         } finally {
             try {
                 inputStreamOrders.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(FILE_ERR_MSG, e);
             }
         }
     }
@@ -55,7 +58,7 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
             UUID id = phoneOrder.getId();
             List<PhoneOrder> existingOrders = getPhoneOrdersById(id);
             if (existingOrders.isEmpty() || existingOrders.size() > 1) {
-                throw new RuntimeException("Order not exist or there are multiple phoneOrders with id: " + id);
+                throw new RuntimeException(ORDER_ERR_MSG + id);
             }
             this.phoneOrders.remove(existingOrders.get(0));
             this.phoneOrders.add(phoneOrder);
