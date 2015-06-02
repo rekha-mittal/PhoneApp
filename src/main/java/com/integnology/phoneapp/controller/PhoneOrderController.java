@@ -51,6 +51,7 @@ public class PhoneOrderController {
     @RequestMapping(value = "order/id/{id}", method = RequestMethod.GET)
     @ResponseBody
     public List<PhoneOrder> getOrderById(@PathVariable("id") UUID id) {
+        System.out.println("Received a get order by id request");
         return phoneOrderService.getPhoneOrdersById(id);
     }
 
