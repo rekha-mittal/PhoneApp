@@ -40,7 +40,7 @@ public class PhoneOrderController {
     /**
      * This sets the PhoneOrderService mock object to be used for unit testing.
      */
-    public void setPhoneOrderService(PhoneOrderService phoneOrderService) {
+    void setPhoneOrderService(PhoneOrderService phoneOrderService) {
         this.phoneOrderService = phoneOrderService;
     }
 

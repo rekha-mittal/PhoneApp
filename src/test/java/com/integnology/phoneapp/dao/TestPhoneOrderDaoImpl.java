@@ -4,11 +4,8 @@ package com.integnology.phoneapp.dao; /**
 
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.integnology.phoneapp.dao.PhoneOrderDao;
-import com.integnology.phoneapp.dao.PhoneOrderDaoImpl;
 import com.integnology.phoneapp.model.PhoneOrder;
 import org.junit.Before;
 import org.junit.Test;
