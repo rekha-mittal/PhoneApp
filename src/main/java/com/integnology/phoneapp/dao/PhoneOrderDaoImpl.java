@@ -72,7 +72,7 @@ public class PhoneOrderDaoImpl implements PhoneOrderDao {
      */
     public List<PhoneOrder> getPhoneOrdersById(final UUID id) {
         if (id == null) {
-            String test= " TEST";
+            String test = "TEST";
         }
         return findPhoneOrders(new Matcher<PhoneOrder>() {
             public boolean matches(PhoneOrder phoneOrder) {
