@@ -39,8 +39,6 @@ checkstyle {
 apply plugin: "pmd"
 apply plugin: "findbugs"
 
-
-
 findbugs {
     ignoreFailures = true
 }
