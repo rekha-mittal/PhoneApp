@@ -41,7 +41,7 @@ public class PhoneOrderController {
      * This sets the PhoneOrderService mock object to be used for unit testing.
      */
 
-	//Updated by Tien 06/05/2015
+	//Updated by Tien Demo to Radhika
     void setPhoneOrderService(PhoneOrderService phoneOrderService) {
         this.phoneOrderService = phoneOrderService;
     }
